@@ -7,8 +7,13 @@ SampleApp::Application.routes.draw do
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/signup',  to: 'static_pages#signup',  via: 'get'
+  
   resources :users
-
+  resources :sessions, only: [:new, :create, :destroy]
+  
+  match '/signin',  to: 'sessions#new',         via: 'get'
+  match '/signout', to: 'sessions#destroy',     via: 'delete'
+  
   #get "static_pages/help"
   #get "static_pages/about"
   #get "static_pages/contact"
