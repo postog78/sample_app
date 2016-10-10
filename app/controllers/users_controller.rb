@@ -12,10 +12,15 @@ class UsersController < ApplicationController
   end
   
   def new
-    @user = User.new
+    redirect_to(root_url) if signed_in? else @user = User.new
   end
   
   def create
+    if signed_in? then
+      redirect_to(root_url)
+      return
+    end
+    
     @user = User.new(user_params)
     if @user.save
       sign_in @user
@@ -50,7 +55,7 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+                                   :password_confirmation, :admin_user)
     end
 
     # Before filters
