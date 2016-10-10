@@ -9,10 +9,11 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
   
   def new
-    redirect_to(root_url) if signed_in? else @user = User.new
+    if signed_in? then redirect_to(root_url) else @user = User.new end
   end
   
   def create
